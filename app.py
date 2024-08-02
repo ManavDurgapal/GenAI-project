@@ -3,6 +3,12 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
+import gdown
+
+url = 'https://drive.google.com/file/d/1XTIuOLtI_0iYHXLj4DL8Hbm9kEyCQPJT/view?usp=sharing'
+output = 'df_with_embeddings.pkl'
+
+gdown.download(url, output, quiet=False)
 
 # Load precomputed embeddings
 df_with_embeddings = pd.read_pickle('df_with_embeddings.pkl')
