@@ -7,7 +7,7 @@ import gdown
 import os
 
 # Google Drive URL of the pickle file
-url = 'https://drive.google.com/uc?id=YOUR_FILE_ID'
+url = 'https://drive.google.com/file/d/1XTIuOLtI_0iYHXLj4DL8Hbm9kEyCQPJT/view?usp=sharing'
 output = 'df_with_embeddings.pkl'
 
 # Download the pickle file from Google Drive
