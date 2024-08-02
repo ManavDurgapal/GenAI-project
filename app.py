@@ -3,43 +3,9 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
-import gdown
-import os
-
-# Google Drive URL of the pickle file
-url = 'https://drive.google.com/file/d/1WG2EdFJM5KFmqBk4XLKS0gnuZKs1sU0X/view?usp=sharing'
-output = 'df_with_embeddings.pkl'
-
-# Download the pickle file from Google Drive
-try:
-    gdown.download(url, output, quiet=False)
-    if os.path.exists(output):
-        st.write(f"File downloaded successfully: {output}")
-        st.write(f"File size: {os.path.getsize(output)} bytes")
-    else:
-        st.error(f"Failed to download the file: {output}")
-except Exception as e:
-    st.error(f"An error occurred while downloading the file: {e}")
-
-# Check the first few bytes of the file to determine its content type
-try:
-    with open(output, 'rb') as file:
-        header = file.read(4)
-    if header.startswith(b'\x80\x04'):
-        st.write("The file appears to be a valid pickle file.")
-    else:
-        st.error("The file does not appear to be a valid pickle file. It might be an HTML error message or some other type of file.")
-        with open(output, 'r') as file:
-            st.text(file.read(2000))  # Display the first 2000 characters of the file to help debug
-except Exception as e:
-    st.error(f"An error occurred while inspecting the file: {e}")
 
 # Load precomputed embeddings
-try:
-    df_with_embeddings = pd.read_pickle(output)
-    st.write("Pickle file loaded successfully.")
-except Exception as e:
-    st.error(f"An error occurred while loading the pickle file: {e}")
+df_with_embeddings = pd.read_pickle('df_with_embeddings.pkl')
 
 # Load the SentenceTransformer model
 model = SentenceTransformer('all-MiniLM-L6-v2')
