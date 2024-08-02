@@ -7,7 +7,7 @@ import gdown
 import os
 
 # Google Drive URL of the pickle file
-url = 'https://drive.google.com/file/d/1XTIuOLtI_0iYHXLj4DL8Hbm9kEyCQPJT/view?usp=sharing'
+url = 'https://drive.google.com/uc?id=YOUR_FILE_ID'
 output = 'df_with_embeddings.pkl'
 
 # Download the pickle file from Google Drive
@@ -21,10 +21,22 @@ try:
 except Exception as e:
     st.error(f"An error occurred while downloading the file: {e}")
 
+# Check the first few bytes of the file to determine its content type
+try:
+    with open(output, 'rb') as file:
+        header = file.read(4)
+    if header.startswith(b'\x80\x04'):
+        st.write("The file appears to be a valid pickle file.")
+    else:
+        st.error("The file does not appear to be a valid pickle file. It might be an HTML error message or some other type of file.")
+        with open(output, 'r') as file:
+            st.text(file.read(2000))  # Display the first 2000 characters of the file to help debug
+except Exception as e:
+    st.error(f"An error occurred while inspecting the file: {e}")
+
 # Load precomputed embeddings
 try:
-    with open(output, 'rb') as f:
-        df_with_embeddings = pd.read_pickle(f)
+    df_with_embeddings = pd.read_pickle(output)
     st.write("Pickle file loaded successfully.")
 except Exception as e:
     st.error(f"An error occurred while loading the pickle file: {e}")
