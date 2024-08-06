@@ -1,8 +1,28 @@
+import threading
+import time
+import requests
+import streamlit as st
 import streamlit as st
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
+
+def keep_awake(url, interval):
+    while True:
+        try:
+            requests.get(url)
+        except Exception as e:
+            print(f"Error keeping app awake: {e}")
+        time.sleep(interval)
+
+# URL of your Streamlit app (use your actual app URL)
+app_url = "https://genai-project-7jrzz8uukutamsphsvzwcw.streamlit.app/"
+
+# Start the thread to keep the app awake
+threading.Thread(target=keep_awake, args=(app_url, 300)).start()
+
+# Add the rest of your app content here
 
 # Load precomputed embeddings
 df_with_embeddings = pd.read_pickle('df_with_embeddings.pkl')
